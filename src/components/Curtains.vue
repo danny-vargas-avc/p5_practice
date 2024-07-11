@@ -11,7 +11,7 @@ import { ref, onMounted } from "vue";
 
 const parentDiv = ref(null);
 const canvasContainer = ref(null);
-const imgSrc = "src/assets/f1.jpg"; // Provide the path to your image here
+const imgSrc = "./assets/f1.jpg"; // Provide the path to your image here
 
 let audio;
 const decayFactor = 0.95; // Decay factor for slowing down particles
@@ -19,7 +19,7 @@ const MAX_CANVAS_SIZE = 500;
 
 function injectAudioElement() {
   audio = document.createElement("audio");
-  audio.src = "src/assets/f1.mp3";
+  audio.src = "./assets/f1.mp3";
   audio.style.display = "none";
   parentDiv.value.appendChild(audio);
 }
