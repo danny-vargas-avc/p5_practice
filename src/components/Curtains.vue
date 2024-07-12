@@ -100,6 +100,9 @@ onMounted(() => {
       }
     }
 
+    // todo:
+    // greyscale approach with drawing the particles
+    // 
     function createParticle(x, y, c) {
       return {
         x: x,
