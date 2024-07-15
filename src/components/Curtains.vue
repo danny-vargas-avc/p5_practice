@@ -55,15 +55,17 @@ onMounted(() => {
         placeParticles();
       }
       p.noStroke();
+      drawParticles();
     };
 
-    p.draw = () => {
+    function drawParticles() {
       p.background(255);
       for (let i = 0; i < particles.length; i++) {
         updateParticle(particles[i]);
         drawParticle(particles[i]);
       }
-    };
+      window.requestAnimationFrame(drawParticles);
+    }
 
     p.mousePressed = () => {
       if (audio) {
@@ -83,16 +85,18 @@ onMounted(() => {
     function placeParticles() {
       particles = []; // Clear existing particles
       img.loadPixels(); // Ensure pixels are loaded before accessing them
+      const imgWidth = img.width;
+      const imgHeight = img.height;
       for (let i = 0; i < p.width; i += resolution) {
         for (let j = 0; j < p.height; j += resolution / 4) {
           // Map canvas coordinates to the image coordinates
-          let x = (i / p.width) * img.width;
-          let y = (j / p.height) * img.height;
+          let x = (i / p.width) * imgWidth;
+          let y = (j / p.height) * imgHeight;
 
           // Get the color of the pixel at the mapped image coordinates
           let c = img.get(x, y);
 
-          // create a particle if the pixel isnt white
+          // create a particle if the pixel isn't white
           if (c[0] + c[1] + c[2] != 255 * 10) {
             particles.push(createParticle(i, j, c));
           }
@@ -100,9 +104,6 @@ onMounted(() => {
       }
     }
 
-    // todo:
-    // greyscale approach with drawing the particles
-    // 
     function createParticle(x, y, c) {
       return {
         x: x,
@@ -155,11 +156,11 @@ onMounted(() => {
       // and apply the decay factor to the velocity to simulate friction
       particle.vel.add(particle.acc);
       particle.vel.mult(decayFactor);
-      
+
       // Update the particle's position with its velocity
       particle.x += particle.vel.x;
       particle.y += particle.vel.y;
-      
+
       // Reset the acceleration for the next frame
       particle.acc.mult(0);
 
